@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'RequestList.dart';
 
 class Dashboard extends StatefulWidget {
-  //@override
+  @override
   State<StatefulWidget> createState() => _DashBoard();
 }
 
@@ -108,15 +108,15 @@ class _DashBoard extends State<Dashboard> {
                     //color: Colors.lightBlue[400],
                     ),
               ),
-              CustomListTile(Icon(Icons.dashboard), Text('Dashboard'),
+              CustomDrawTile(Icon(Icons.dashboard), Text('Dashboard'),
                   Icon(Icons.arrow_right)),
-              CustomListTile(
+              CustomDrawTile(
                   Icon(Icons.person), Text('Perfil'), Icon(Icons.arrow_right)),
-              CustomListTile(Icon(Icons.credit_card), Text('Comprar créditos'),
+              CustomDrawTile(Icon(Icons.credit_card), Text('Comprar créditos'),
                   Icon(Icons.arrow_right)),
-              CustomListTile(Icon(Icons.settings),
+              CustomDrawTile(Icon(Icons.settings),
                   Text('Configuración de la cuenta'), Icon(Icons.arrow_right)),
-              CustomListTile(Icon(Icons.monetization_on),
+              CustomDrawTile(Icon(Icons.monetization_on),
                   Text('Planes de subscripcion'), Icon(Icons.arrow_right)),
 
               /*ListTile(
@@ -177,10 +177,10 @@ class _DashBoard extends State<Dashboard> {
   }
 }
 
-class CustomListTile extends StatelessWidget {
+class CustomDrawTile extends StatelessWidget {
   Icon icon1, icon2;
   Text title;
-  CustomListTile(icon1, title, icon2) {
+  CustomDrawTile(icon1, title, icon2) {
     this.icon1 = icon1;
     this.icon2 = icon2;
     this.title = title;

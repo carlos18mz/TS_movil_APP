@@ -1,6 +1,5 @@
 import 'package:TropSmart/dashboard.dart';
 import 'package:TropSmart/http-service.dart';
-import 'package:TropSmart/registration-form.dart';
 import 'package:TropSmart/transitions.dart';
 import 'package:flutter/material.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
@@ -203,7 +202,7 @@ class _LoginScreenState extends State<LoginPage> {
   }
 
   void signIn(String email, String password, context) async {
-    var response = await httpService.signIn("carlos18@gmail.com", "123456");
+    var response = await httpService.signIn("carlos@gmail.com", "123456");
     //print(json.encode(response));
     //SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (response['success'] == true) {
@@ -226,6 +225,7 @@ class _LoginScreenState extends State<LoginPage> {
           }));
     } else {
       debugPrint("Failed");
+      _isLoading = false;
     }
   }
 }
