@@ -1,4 +1,6 @@
 import 'package:TropSmart/DriverList.dart';
+import 'package:TropSmart/MoneyMovView.dart';
+
 import 'package:TropSmart/favourtieList.dart';
 import 'package:TropSmart/main.dart';
 import 'package:TropSmart/transitions.dart';
@@ -6,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'RequestList.dart';
+
 
 class Dashboard extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _DashBoard extends State<Dashboard> {
   CustomTransition customTransition = CustomTransition();
 
   final List<Widget> _navPages = [
-    RequestList(),
+
     DriverList(),
     FavoriteList(),
   ];
@@ -119,15 +121,15 @@ class _DashBoard extends State<Dashboard> {
               CustomDrawTile(Icon(Icons.monetization_on),
                   Text('Planes de subscripcion'), Icon(Icons.arrow_right)),
 
-              /*ListTile(
-                Icon(Icons.dashboard),
-                Text('Perfil'),
-                Icon(Icons.arrow_right),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
+              ListTile(leading: Icon(Icons.monetization_on) ,title: Text("Transacciones"),
+                trailing: Icon(Icons.arrow_right), onTap: () {
+                debugPrint("ListTile Tapped");
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return MoneyMovView();
+                }));
+                },),
+
+               /*ListTile(
                 Icon(Icons.person),
                 Text('Perfil'),
                 Icon(Icons.arrow_right),
