@@ -1,122 +1,150 @@
-import 'package:TropSmart/http-service.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:TropSmart/Model/Cargo.dart';
+import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
+import 'Model/request.dart';
 
-class RequestList extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _RequestList();
-}
+class RequestList extends StatelessWidget{
+  final List<Request> requests;
 
-class Users {
-  String id;
-  String title;
-  String subtitle;
-
-  Users({this.id, this.title, this.subtitle});
-}
-
-class _RequestList extends State<RequestList> {
-  final HttpService httpService = HttpService();
-  List<Cargo> cargoes;
-
-  Future<List<Cargo>> getCargoes() async {
-    this.cargoes = await httpService.getCargoes();
-    return this.cargoes;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        body: Container(
-            child: FutureBuilder(
-                future: getCargoes(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Cargo getCargo = snapshot.data[index];
-                          return CustomListTile(
-                              Text(getCargo.customer),
-                              Text(getCargo.description),
-                              Text(getCargo.cargoStatus));
-                        });
-                  }
-                })));
-    /*return new Scaffold(
-      body: Center(child: ListView.builder(
-          //itemCount: userList
-          itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(userList[index].title),
-          subtitle: Text(userList[index].subtitle),
-        );
-      })),
-    );*/
-  }
-  /*List requestList = [
-    Users(id: "1", title: "Saco de papa", subtitle: "S/. 415"),
-    Users(id: "2", title: "Autopartes x100", subtitle: "S/. 300"),
-    Users(id: "3", title: "Cura del covid", subtitle: "S/. 250"),
-    Users(id: "4", title: "Accesorios", subtitle: "S/. 500"),
-    Users(id: "5", title: "Techo calamina", subtitle: "S/. 670"),
-    Users(id: "6", title: "Mesa de billar", subtitle: "S/. 730"),
-    Users(id: "7", title: "Avion a escala", subtitle: "S/. 200"),
-    Users(id: "8", title: "Harto sillao", subtitle: "S/. 120"),
-    Users(id: "9", title: "Xiaomi calidad precio", subtitle: "S/. 330"),
-    Users(id: "10", title: "C", subtitle: "S/. 350"),
-  ];
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    /*return new Scaffold(
-      body: Center(child: ListView.builder(
-          //itemCount: userList
-          itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(userList[index].title),
-          subtitle: Text(userList[index].subtitle),
-        );
-      })),
-    );*/
-
+  RequestList({this.requests});
+  ListView _buildListView() {
     return ListView.builder(
-        itemCount: requestList.length,
-        itemBuilder: (BuildContext context, int i) {
-          return CustomListTile(Text(requestList[i].id),
-              Text(requestList[i].title), Text(requestList[i].subtitle));
-        });
-  }
-*/
+        itemCount: requests.length,
+        itemBuilder: (context, index){
+          return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              color: (index) % 2 == 0 ? Colors.lightGreen : Colors.tealAccent,
+              elevation: 10,
 
-}
 
-class CustomListTile extends StatelessWidget {
-  Text col1;
-  Text col2;
-  Text col3;
+            //this lesson will customize this ListItem, using Column and Row
 
-  CustomListTile(col1, col2, col3) {
-    this.col1 = col1;
-    this.col2 = col2;
-    this.col3 = col3;
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.all(10),),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.only(top:10)),
+                      Text(requests[index].carga,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: Colors.white
+                        ),
+                      ),
+                      Text('Date: ${DateFormat.yMd().format(requests[index].fecha)}',
+                          style: TextStyle(fontSize: 12, color: Colors.white)),
+                      Padding(padding: EdgeInsets.only(bottom:10)),
+                    ],
+                  ),
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text('${requests[index].cantidad}\kg',
+                                style: TextStyle(fontSize: 12, color: Colors.white)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white, width: 2, style: BorderStyle.solid),
+                                borderRadius:BorderRadius.all(Radius.circular(10))
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 10),)
+                        ],
+                      )
+                  ),
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text('${requests[index].solicitante}',
+                                style: TextStyle(fontSize: 12, color: Colors.white)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white, width: 2, style: BorderStyle.solid),
+                                borderRadius:BorderRadius.all(Radius.circular(10))
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 10),)
+                        ],
+                      )
+                  ),
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text('${requests[index].distancia}\km',
+                                style: TextStyle(fontSize: 12, color: Colors.white)),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white, width: 2, style: BorderStyle.solid),
+                                borderRadius:BorderRadius.all(Radius.circular(10))
+                            ),
+
+                          ),
+                          Padding(padding: EdgeInsets.only(right: 10),)
+                        ],
+                      )
+                  ),
+                  Row(
+                      children: <Widget>[
+                        ButtonBar(
+                          alignment: MainAxisAlignment.start,
+                          children: [
+                            FlatButton(
+                              color: const Color(0x406204EE),
+                              textColor: const Color(0xFF6200EE),
+                              onPressed: () {
+                                requests[index].estado = true;
+                              },
+                              child: const Text('Aceptar'),
+                            ),
+                            FlatButton(
+                              color: const Color(0x406204EE),
+                              textColor: const Color(0xFF6200EE),
+                              onPressed: () {
+                                requests[index].estado = false;
+                              },
+                              child: const Text('Rechazar'),
+                            ),
+                          ],
+                        ),
+                      ],
+                  )
+
+
+
+
+                ],
+
+
+
+              ),
+
+
+
+
+
+          );
+        }
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        hoverColor: Colors.lightBlue[200],
-        child: Container(
-            height: 40,
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[col1, col2, col3],
-            )));
+
+    return Container(
+        height: 400,
+        child: _buildListView()
+    );
   }
 }

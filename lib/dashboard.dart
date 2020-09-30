@@ -1,4 +1,6 @@
 import 'package:TropSmart/DriverList.dart';
+
+import 'package:TropSmart/RequestView.dart';
 import 'package:TropSmart/favourtieList.dart';
 import 'package:TropSmart/main.dart';
 import 'package:TropSmart/transitions.dart';
@@ -19,7 +21,7 @@ class _DashBoard extends State<Dashboard> {
   CustomTransition customTransition = CustomTransition();
 
   final List<Widget> _navPages = [
-    RequestList(),
+    RequestView(),
     DriverList(),
     FavoriteList(),
   ];
@@ -119,15 +121,16 @@ class _DashBoard extends State<Dashboard> {
               CustomDrawTile(Icon(Icons.monetization_on),
                   Text('Planes de subscripcion'), Icon(Icons.arrow_right)),
 
-              /*ListTile(
-                Icon(Icons.dashboard),
-                Text('Perfil'),
-                Icon(Icons.arrow_right),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
+
+
+              ListTile(leading: Icon(Icons.list) ,title: Text("Solicitudes"),
+                trailing: Icon(Icons.arrow_right), onTap: () {
+                  debugPrint("ListTile Tapped");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return RequestView();
+                  }));
+                },),
+               /*ListTile(
                 Icon(Icons.person),
                 Text('Perfil'),
                 Icon(Icons.arrow_right),
