@@ -5,6 +5,7 @@ import 'package:TropSmart/transitions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'search-transport.dart';
 
 import 'RequestList.dart';
 
@@ -14,16 +15,30 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashBoard extends State<Dashboard> {
-  int _currentPage = 0;
+  int _currentPage = 2;
   SharedPreferences sharedPreferences;
   CustomTransition customTransition = CustomTransition();
 
+  _navPages(int _currentPage){
+    switch(_currentPage){
+      case 2: return SearchTransport();
+    }
+  }
+
+  _onCurrentPage(int _currentPage){
+    setState(() {
+      _currentPage = _currentPage;
+    });
+    Navigator.of(context).pop(); //Para cerrar al hacer click
+  }
+  /*
   final List<Widget> _navPages = [
     RequestList(),
     DriverList(),
     FavoriteList(),
+    SearchTransport(),
   ];
-
+  */
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
     /*if (sharedPreferences.getString('token') == null) {
@@ -39,8 +54,7 @@ class _DashBoard extends State<Dashboard> {
     super.initState();
     checkLoginStatus();
   }
-
-/*
+  /* ------------------------
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -48,7 +62,8 @@ class _DashBoard extends State<Dashboard> {
     Text('Index 0: Home', style: optionStyle),
     Text('Index 1: Business', style: optionStyle),
     Text('Index 2: School', style: optionStyle),
-  ];*/
+  ];
+  ------------------------*/
 
   void _onItemTapped(int index) {
     setState(() {
@@ -56,13 +71,12 @@ class _DashBoard extends State<Dashboard> {
     });
   }
 
-  //================================================
-
+  // ========== DRAWER ========================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('DashBoard'),
+          title: Text('TropSmart'),
           actions: <Widget>[
             IconButton(
                 icon: const Icon(Icons.exit_to_app),
@@ -96,65 +110,98 @@ class _DashBoard extends State<Dashboard> {
                           "https://randomuser.me/api/portraits/men/74.jpg",
                           scale: 0.3),
                     ),
-                    Text("Carlos Alberto"),
+                    Text("Carlos Alberto", style: TextStyle(color: Colors.orange)),
                   ],
                 ),
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  image: NetworkImage(
-                      'https://media.istockphoto.com/photos/blue-abstract-background-or-texture-picture-id1138395421?k=6&m=1138395421&s=612x612&w=0&h=bJ1SRWujCgg3QWzkGPgaRiArNYohPl7-Wc4p_Fa_cyA='),
-                  fit: BoxFit.fill,
-                )
+                      image: NetworkImage(
+                      'https://media.istockphoto.com/photos/blue-abstract-background-or-texture-picture-id1138395421?k=6&m=1138395421&s=612x612&w=0&h=bJ1SRWujCgg3QWzkGPgaRiArNYohPl7-Wc4p_Fa_cyA='
+                      ),
+                      fit: BoxFit.fill,
+                    )
                     //color: Colors.lightBlue[400],
-                    ),
+                ),
               ),
-              CustomDrawTile(Icon(Icons.dashboard), Text('Dashboard'),
-                  Icon(Icons.arrow_right)),
+              /* --------------------
               CustomDrawTile(
-                  Icon(Icons.person), Text('Perfil'), Icon(Icons.arrow_right)),
-              CustomDrawTile(Icon(Icons.credit_card), Text('Comprar créditos'),
-                  Icon(Icons.arrow_right)),
-              CustomDrawTile(Icon(Icons.settings),
-                  Text('Configuración de la cuenta'), Icon(Icons.arrow_right)),
-              CustomDrawTile(Icon(Icons.monetization_on),
-                  Text('Planes de subscripcion'), Icon(Icons.arrow_right)),
+                  Icon(Icons.dashboard),
+                  Text('Dashboard'),
+                  Icon(Icons.arrow_right)
+              ),
+              CustomDrawTile(
+                  Icon(Icons.person),
+                  Text('Perfil'),
+                  Icon(Icons.arrow_right)
+              ),
+              CustomDrawTile(
+                  Icon(Icons.search),
+                  Text('Búsqueda'),
+                  Icon(Icons.arrow_right)
+                  onTap: (){
+                  }
+              ),
+              CustomDrawTile(
+                  Icon(Icons.settings),
+                  Text('Configuración de la cuenta'),
+                  Icon(Icons.arrow_right)
+              ),
+              CustomDrawTile(
+                  Icon(Icons.monetization_on),
+                  Text('Planes de subscripcion'),
+                  Icon(Icons.arrow_right)
+              ),
+              ------------ */
+              ListTile(
+                leading: Icon(Icons.dashboard),
+                title: Text('Dashboard'),
+                trailing: Icon(Icons.arrow_right),
+                selected: (0 == _currentPage),
+                onTap: () {
 
-              /*ListTile(
-                Icon(Icons.dashboard),
-                Text('Perfil'),
-                Icon(Icons.arrow_right),
-                onTap: () {
-                  Navigator.pop(context);
                 },
               ),
               ListTile(
-                Icon(Icons.person),
-                Text('Perfil'),
-                Icon(Icons.arrow_right),
+                leading: Icon(Icons.person),
+                title: Text('Perfil'),
+                trailing: Icon(Icons.arrow_right),
+                selected: (1 == _currentPage),
                 onTap: () {
-                  Navigator.pop(context);
+
                 },
               ),
               ListTile(
-                Icon(Icons.credit_card),
-                Text('Compra de créditos'),
-                Icon(Icons.arrow_right),
+                leading: Icon(Icons.search),
+                title: Text('Búsqueda'),
+                trailing: Icon(Icons.arrow_right),
+                selected: (2 == _currentPage),
                 onTap: () {
-                  Navigator.pop(context);
+                  _onCurrentPage(2);
                 },
               ),
               ListTile(
-                Icon(Icons.settings),
-                Text('Configuracion'),
-                Icon(Icons.arrow_right),
+                leading: Icon(Icons.settings),
+                title: Text('Configuracion'),
+                trailing: Icon(Icons.arrow_right),
+                selected: (3 == _currentPage),
                 onTap: () {
-                  Navigator.pop(context);
+
                 },
-              ),*/
+              ),
+              ListTile(
+                leading: Icon(Icons.monetization_on),
+                title: Text('Planes'),
+                trailing: Icon(Icons.arrow_right),
+                selected: (4 == _currentPage),
+                onTap: () {
+
+                },
+              ),
             ],
           ),
         ),
-        body: _navPages[_currentPage],
+        body: _navPages(_currentPage),
+        /* -------------
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -173,10 +220,13 @@ class _DashBoard extends State<Dashboard> {
           currentIndex: _currentPage,
           selectedItemColor: Colors.lightBlue[800],
           onTap: _onItemTapped,
-        ));
+        )
+         --------------- */
+    );
   }
 }
 
+/*
 class CustomDrawTile extends StatelessWidget {
   Icon icon1, icon2;
   Text title;
@@ -207,3 +257,4 @@ class CustomDrawTile extends StatelessWidget {
             )));
   }
 }
+*/
